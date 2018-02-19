@@ -28,10 +28,12 @@ public:
     Particle( vec2 loc );
     void update( const Channel32f &channel );
     void draw();
+    float getRadius() { return mRadius; };
 };
 
 
-Particle::Particle( vec2 loc ) {
+Particle::Particle( vec2 loc )
+{
     mLoc = loc;
     mDir = Rand::randVec2();
     mVel = Rand::randFloat( 5.0f );
@@ -40,15 +42,19 @@ Particle::Particle( vec2 loc ) {
 //    mRadius = Rand::randFloat( 1.0f, 5.0f );
 //    mRadius = cos( mLoc.y * 0.1f ) + sin( mLoc.x * 0.1f ) + 2.0f;
 }
-void Particle::update( const Channel32f &channel ) {
+
+void Particle::update( const Channel32f &channel )
+{
     float gray = channel.getValue( mLoc );
     mRadius = channel.getValue( mLoc ) * 4.0f;
     mColor = Color( gray, gray, gray );
-//    mLoc += mDir * mVel;
+    mLoc += mDir * mVel;
 }
-void Particle::draw() {
+
+void Particle::draw()
+{
     gl::color( mColor );
-    gl::drawSolidCircle( mLoc, mRadius );
+    gl::drawSolidCircle( mLoc, mRadius, 12 );
 }
 
 

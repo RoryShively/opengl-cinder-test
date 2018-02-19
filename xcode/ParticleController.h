@@ -13,10 +13,10 @@
 
 class ParticleController
 {
-//private:
-//    int mYRes;
-//    int mXRes;
-//
+private:
+    gl::BatchRef            mParticleShapes[800000];
+    gl::GlslProgRef         mShader;
+    
 public:
     ParticleController();
     ParticleController( int mYRes, int mXRes );
@@ -25,7 +25,7 @@ public:
     void addParticles( int amt );
     void addParticle( int xi, int yi );
     void removeParticles( int amt );
-    std::list<Particle> mParticles;
+//    std::list<Particle> mParticles;
 };
 
 ParticleController::ParticleController()
@@ -35,6 +35,9 @@ ParticleController::ParticleController()
 
 ParticleController::ParticleController( int mYRes, int mXRes )
 {
+    auto lambert = gl::ShaderDef().color();
+    mShader = gl::getStockShader( lambert );
+    
     for( int y=0; y<mYRes; y++ )
     {
         for( int x=0; x<mXRes; x++ )
@@ -46,34 +49,35 @@ ParticleController::ParticleController( int mYRes, int mXRes )
 
 void ParticleController::update( const Channel32f &channel )
 {
-    for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p )
-    {
-        p->update( channel );
-    }
+////    mParticleShapes[8000] = gl::BatchRef;
+//    for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p )
+//    {
+//        p->update( channel );
+//    }
 }
 
 void ParticleController::draw()
 {
-    for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p )
+//    for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p )
+    for( int i = 0; i < (800 * 600); i++ )
     {
-        p->draw();
-    }
-}
-
-void ParticleController::addParticles( int amt )
-{
-    auto initPos = vec2( 400, 300 );
-    for( int i = 0; i < amt; i ++ )
-    {
-        auto p = Particle( initPos );
-        mParticles.push_back( p );
+//        p->draw();
+        mParticleShapes[i]->draw();
     }
 }
 
 void ParticleController::addParticle( int xi, int yi ) {
     float x = ( xi + 0.5f ) * 10.0f;
     float y = ( yi + 0.5f ) * 10.0f;
-    mParticles.push_back( Particle( vec2( x, y ) ) );
+    auto particle = Particle( vec2( x, y ) );
+    float r = particle.getRadius();
+//    mParticles.push_back( particle );
+    
+    auto circle = geom::Circle().center( vec2( y, x ) ).radius( r );
+    int i = (int) ( ( ( xi + 1 ) * ( yi + 1 ) ) - 1 );
+    cout << i <<endl;
+    mParticleShapes[i] = gl::Batch::create( circle, mShader );
+    
 }
 
 

@@ -1,6 +1,7 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+//#include “cinder/gl/Batch.h”
 
 #include "ParticleController.h"
 
@@ -14,32 +15,27 @@ using namespace std;
 #include "cinder/Log.h"
 
 class TestAppApp : public App {
-  public:
-	void setup() override;
-	void mouseDown( MouseEvent event ) override;
-	void update() override;
-	void draw() override;
-    
-    void enableFileLogging();
-    
-//    gl::Texture2dRef        mTex;
+private:
     Channel32f              mImgChannel;
     ParticleController      mParticleController;
+    
+public:
+    void setup() override;
+    void mouseDown( MouseEvent event ) override;
+    void update() override;
+    void draw() override;
+
+    void enableFileLogging();
 };
 
 void TestAppApp::setup()
 {
-    // Adjust window size to be 600 width x 800 height
-    auto winRef = this->getWindow();
-    winRef->setSize( 1000, 600 );
-    
-    // Load background image
+    // Create grey scale channel from image
     auto img = loadImage( loadAsset( "tiger.jpg" ) );
     mImgChannel = Channel32f( img );
-//    mTex = gl::Texture2d::create( img );
     
     // Load particles
-    mParticleController = ParticleController(800, 600);
+    mParticleController = ParticleController( 800, 600 );
 }
 
 void TestAppApp::enableFileLogging()
@@ -50,33 +46,19 @@ void TestAppApp::enableFileLogging()
     log::makeLogger<log::LoggerFile>( "/tmp/logging/cinder.log", true );
 }
 
-void TestAppApp::mouseDown( MouseEvent event )
-{
-//    CI_LOG_D( "something" );
-    char message[10] = "message";
-    cout << message << endl;
-}
+void TestAppApp::mouseDown( MouseEvent event ) {}
 
 void TestAppApp::update()
 {
-    mParticleController.update( mImgChannel );
-//    mParticleController.addParticles( 1 );
+//    mParticleController.update( mImgChannel );
 }
 
 void TestAppApp::draw()
 {
     gl::clear();
-//    gl::draw( mTex, getWindowBounds() );
     mParticleController.draw();
-    
-//    float es = getElapsedSeconds();
-//
-//    float x = ((cos( es ) * 60.0f) + getWindowWidth() / 2) + sin( es );
-//    float y = (sin( es ) * 60.0f) + getWindowHeight() / 2 + cos ( es );
-//    float s = abs( sin( es ) ) * 10.0f;
-//    CI_LOG_D( s );
-//
-//    gl::drawSolidCircle( vec2( x, y ), 50.0f, s );
 }
 
-CINDER_APP( TestAppApp, RendererGl )
+CINDER_APP( TestAppApp, RendererGl, [](App::Settings *settings) {
+    settings->setWindowSize( 800, 600 );
+} )
