@@ -20,7 +20,7 @@ class ParticleController
 public:
     ParticleController();
     ParticleController( int mYRes, int mXRes );
-    void update( const Channel32f &channel );
+    void update( const Channel32f &channel, const vec2 &mouseLoc );
     void draw();
     void addParticles( int amt );
     void addParticle( int xi, int yi );
@@ -44,11 +44,11 @@ ParticleController::ParticleController( int mYRes, int mXRes )
     }
 }
 
-void ParticleController::update( const Channel32f &channel )
+void ParticleController::update( const Channel32f &channel, const vec2 &mouseLoc )
 {
     for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p )
     {
-        p->update( channel );
+        p->update( channel, mouseLoc );
     }
 }
 

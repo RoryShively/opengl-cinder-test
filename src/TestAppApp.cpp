@@ -14,25 +14,24 @@ using namespace std;
 #include "cinder/Log.h"
 
 class TestAppApp : public App {
-  public:
-	void setup() override;
-	void mouseDown( MouseEvent event ) override;
-	void update() override;
-	void draw() override;
-    
-    void enableFileLogging();
-    
-//    gl::Texture2dRef        mTex;
+private:
     Channel32f              mImgChannel;
     ParticleController      mParticleController;
+    vec2                    mMouseLoc;
+    
+public:
+    void setup() override;
+    void mouseDown( MouseEvent event ) override;
+    void mouseMove( MouseEvent event ) override;
+    void mouseDrag( MouseEvent event ) override;
+    void update() override;
+    void draw() override;
+
+    void enableFileLogging();
 };
 
 void TestAppApp::setup()
 {
-    // Adjust window size to be 600 width x 800 height
-    auto winRef = this->getWindow();
-    winRef->setSize( 1000, 600 );
-    
     // Load background image
     auto img = loadImage( loadAsset( "tiger.jpg" ) );
     mImgChannel = Channel32f( img );
@@ -57,9 +56,18 @@ void TestAppApp::mouseDown( MouseEvent event )
     cout << message << endl;
 }
 
+void TestAppApp::mouseMove( MouseEvent event ) {
+    mMouseLoc = event.getPos();
+//    cout << mMouseLoc << endl;
+}
+
+void TestAppApp::mouseDrag( MouseEvent event ) {
+    mouseMove( event );
+}
+
 void TestAppApp::update()
 {
-    mParticleController.update( mImgChannel );
+    mParticleController.update( mImgChannel, mMouseLoc );
 //    mParticleController.addParticles( 1 );
 }
 
@@ -79,4 +87,6 @@ void TestAppApp::draw()
 //    gl::drawSolidCircle( vec2( x, y ), 50.0f, s );
 }
 
-CINDER_APP( TestAppApp, RendererGl )
+CINDER_APP( TestAppApp, RendererGl, [](App::Settings *settings) {
+    settings->setWindowSize( 1000, 600 );
+})
