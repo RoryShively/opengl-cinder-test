@@ -30,16 +30,16 @@ public:
 
 ParticleController::ParticleController()
 {
-    ParticleController::ParticleController( 800, 600);
+    ParticleController::ParticleController( 1000, 600 );
 }
 
 ParticleController::ParticleController( int mYRes, int mXRes )
 {
-    for( int y=0; y<mYRes; y++ )
+    for( int y=0; y<( mYRes / 10 ); y++ )
     {
-        for( int x=0; x<mXRes; x++ )
+        for( int x=0; x<( mXRes / 10 ); x++ )
         {
-            addParticle( x, y );
+            addParticle( y, x );
         }
     }
 }
@@ -57,16 +57,6 @@ void ParticleController::draw()
     for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p )
     {
         p->draw();
-    }
-}
-
-void ParticleController::addParticles( int amt )
-{
-    auto initPos = vec2( 400, 300 );
-    for( int i = 0; i < amt; i ++ )
-    {
-        auto p = Particle( initPos );
-        mParticles.push_back( p );
     }
 }
 

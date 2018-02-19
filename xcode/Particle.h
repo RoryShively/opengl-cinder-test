@@ -44,7 +44,7 @@ void Particle::update( const Channel32f &channel ) {
     float gray = channel.getValue( mLoc );
     mRadius = channel.getValue( mLoc ) * 4.0f;
     mColor = Color( gray, gray, gray );
-//    mLoc += mDir * mVel;
+    mLoc += mDir * mVel;
 }
 void Particle::draw() {
     gl::color( mColor );
