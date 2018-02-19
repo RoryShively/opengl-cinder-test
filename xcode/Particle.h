@@ -48,15 +48,15 @@ void Particle::update( const Channel32f &channel, const vec2 &mouseLoc ) {
     
     auto locDiff = (mInitLoc - mouseLoc);
     float locDiffMag = pow( ( pow((mouseLoc.x - mInitLoc.x), 2 ) + pow( ( mouseLoc.y - mInitLoc.y ), 2) ), 0.5 );
-    float force = ( 1 / locDiffMag ) * 20;
+//    float force = ( 1 / locDiffMag ) * 20;
+    float force = 200 / ( pow( locDiffMag, 2 ) + 2 );
     
     float gray = channel.getValue( mLoc );
     mRadius = channel.getValue( mLoc ) * 4.0f;
     
     mLoc = mInitLoc + ( locDiff * force );
+//    mLoc = mInitLoc;
     
-//    float gray = channel.getValue( mLoc );e
-//    mRadius = channel.getValue( mLoc ) * 4.0f;
     mColor = Color( gray, gray, gray );
     
 //    if ( locDiffMag < 10 ) {
