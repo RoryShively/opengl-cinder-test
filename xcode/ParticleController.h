@@ -19,27 +19,30 @@ class ParticleController
 //
 public:
     ParticleController();
-    ParticleController( int mYRes, int mXRes );
+    ParticleController( int mYRes, int mXRes, const Channel32f &channel );
     void update( const Channel32f &channel, const vec2 &mouseLoc );
     void draw();
     void addParticles( int amt );
-    void addParticle( int xi, int yi );
+//    void addParticle( int xi, int yi );
+    void addParticle( int xi, int yi, const Channel32f &channel );
     void removeParticles( int amt );
     std::list<Particle> mParticles;
 };
 
 ParticleController::ParticleController()
 {
-    ParticleController::ParticleController( 1000, 600 );
+    auto img = loadImage( cinder::app::loadAsset( "tiger.jpg" ) );
+    auto channel = Channel32f( img );
+    ParticleController::ParticleController( 1000, 600, channel );
 }
 
-ParticleController::ParticleController( int mYRes, int mXRes )
+ParticleController::ParticleController( int mYRes, int mXRes, const Channel32f &channel )
 {
     for( int y=0; y<( mYRes / 10 ); y++ )
     {
         for( int x=0; x<( mXRes / 10 ); x++ )
         {
-            addParticle( y, x );
+            addParticle( y, x, channel );
         }
     }
 }
@@ -60,10 +63,10 @@ void ParticleController::draw()
     }
 }
 
-void ParticleController::addParticle( int xi, int yi ) {
+void ParticleController::addParticle( int xi, int yi, const Channel32f &channel ) {
     float x = ( xi + 0.5f ) * 10.0f;
     float y = ( yi + 0.5f ) * 10.0f;
-    mParticles.push_back( Particle( vec2( x, y ) ) );
+    mParticles.push_back( Particle( vec2( x, y ), channel ) );
 }
 
 

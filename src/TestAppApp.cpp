@@ -38,7 +38,7 @@ void TestAppApp::setup()
 //    mTex = gl::Texture2d::create( img );
     
     // Load particles
-    mParticleController = ParticleController( 1000, 600 );
+    mParticleController = ParticleController( 1000, 600, mImgChannel );
 }
 
 void TestAppApp::enableFileLogging()

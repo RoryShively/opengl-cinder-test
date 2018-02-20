@@ -16,57 +16,86 @@
 using namespace ci;
 using namespace std;
 
+vec2 diffVec(vec2 destVec, vec2 originVec)
+{
+    return destVec - originVec;
+}
+
+float vecMag(vec2 diffVec)
+{
+    return pow( ( pow((diffVec.x ), 2 ) + pow( ( diffVec.y ), 2) ), 0.5 );
+}
+
 class Particle
 {
 private:
-    vec2 mInitLoc;
+    vec2 mGravityCenter;
     vec2 mLoc;
     vec2 mDir;
     Color mColor;
     float mVel;
     float mRadius;
+    vec2 mMomentum;
     
 public:
-    Particle( vec2 loc );
+    Particle( vec2 loc, const Channel32f &channel );
     void update( const Channel32f &channel, const vec2 &mouseLoc );
     void draw();
 };
 
-
-Particle::Particle( vec2 loc ) {
-    mInitLoc = loc;
-    mDir = Rand::randVec2();
-    mVel = Rand::randFloat( 5.0f );
-//    mVel = 0;
-    mRadius = 4.0f;
-//    mRadius = Rand::randFloat( 1.0f, 5.0f );
-//    mRadius = cos( mLoc.y * 0.1f ) + sin( mLoc.x * 0.1f ) + 2.0f;
+Particle::Particle( vec2 loc, const Channel32f &channel ) {
+    mLoc = loc;
+    mGravityCenter = loc;
+    mDir = vec2( 0, 0 );
+    mVel = 0.0f;
+    mMomentum = vec2( 0, 0 );
+    mRadius = channel.getValue( mLoc ) * 4.0f;
+    
+    float gray = channel.getValue( mLoc );
+    mColor = Color( 0, gray / 1.6, gray );
 }
+
+
+
 void Particle::update( const Channel32f &channel, const vec2 &mouseLoc ) {
     
 //    cout << mouseLoc << endl;
     
-    auto locDiff = (mInitLoc - mouseLoc);
-    float locDiffMag = pow( ( pow((mouseLoc.x - mInitLoc.x), 2 ) + pow( ( mouseLoc.y - mInitLoc.y ), 2) ), 0.5 );
-//    float force = ( 1 / locDiffMag ) * 20;
-    float force = 200 / ( pow( locDiffMag, 2 ) + 2 );
+    auto expelVec = diffVec( mLoc,  mouseLoc );
+    float expelMagtitude = vecMag( expelVec );
+    vec2 expelUnitVec = expelVec / expelMagtitude;
+    float eForce = 30000 / ( pow( expelMagtitude, 2 ) + 600 );
+    vec2 eVec = eForce * expelUnitVec;
     
-    float gray = channel.getValue( mLoc );
-    mRadius = channel.getValue( mLoc ) * 4.0f;
+    auto gravVec = diffVec( mGravityCenter, mLoc );
+    if ( isnan(gravVec.x) || isnan(gravVec.y) )
+    {
+        gravVec = vec2( 0, 0 );
+    }
+    float gravMagtitude = vecMag( gravVec );
+    vec2 gravUnitVec = gravVec / gravMagtitude;
+    if ( isnan(gravUnitVec.x) || isnan(gravUnitVec.y) )
+    {
+        gravUnitVec = vec2( 0, 0 );
+    }
+    float gForce = log(gravMagtitude) * 2;
+    vec2 gVec = gForce * gravUnitVec;
+    if ( isnan(gVec.x) || isnan(gVec.y) )
+    {
+        gVec = vec2( 0, 0 );
+    }
     
-    mLoc = mInitLoc + ( locDiff * force );
-//    mLoc = mInitLoc;
     
-    mColor = Color( gray, gray, gray );
+    mMomentum = eVec + gVec;
     
-//    if ( locDiffMag < 10 ) {
-//        cout << "------------" << endl;
-//        cout << "locDiff:    " << locDiff << endl;
-//        cout << "locDiffMag: " << locDiffMag << endl;
-//        cout << "force:      " << force << endl;
-//        cout << "mInitLoc:   " << mInitLoc << endl;
-//        cout << "mLoc:       " << mLoc << endl;
-//    }
+//    float gray = channel.getValue( mLoc );
+//    mRadius = channel.getValue( mLoc ) * 4.0f;
+//
+//
+    mLoc += mMomentum;
+    
+//    mColor = Color( gray, gray, gray );
+    
 }
 
 void Particle::draw() {
