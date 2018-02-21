@@ -33,11 +33,11 @@ public:
 void TestAppApp::setup()
 {
     // Load background image
-    auto img = loadImage( loadAsset( "tiger.jpg" ) );
-    mImgChannel = Channel32f( img );
+    ImageSourceRef img = loadImage( loadAsset( "tiger.jpg" ) );
+//    mImgChannel = Channel32f( img );
     
     // Load particles
-    mParticleController = ParticleController( 1000, 600, mImgChannel );
+    mParticleController = ParticleController( img );
 }
 
 void TestAppApp::enableFileLogging()

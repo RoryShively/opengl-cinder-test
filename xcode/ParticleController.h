@@ -13,10 +13,11 @@ class ParticleController
 {
 protected:
     std::list<Particle> mParticles;
+    Channel32f          mChannel;
     
 public:
-    ParticleController();
-    ParticleController( int mYRes, int mXRes, const Channel32f &channel );
+    ParticleController() {};
+    ParticleController( cinder::ImageSourceRef &img );
     
     void update( const Channel32f &channel, const vec2 &mouseLoc );
     void draw();

@@ -8,19 +8,13 @@
 #include <stdio.h>
 #include "ParticleController.h"
 
-
-ParticleController::ParticleController()
+ParticleController::ParticleController( cinder::ImageSourceRef &img )
 {
-    auto img = loadImage( cinder::app::loadAsset( "tiger.jpg" ) );
     auto channel = Channel32f( img );
-    ParticleController::ParticleController( 1000, 600, channel );
-}
-
-ParticleController::ParticleController( int mYRes, int mXRes, const Channel32f &channel )
-{
-    for( int y=0; y<( mYRes / 10 ); y++ )
+    
+    for( int y=0; y<( img->getWidth() / 10 ); y++ )
     {
-        for( int x=0; x<( mXRes / 10 ); x++ )
+        for( int x=0; x<( img->getHeight() / 10 ); x++ )
         {
             addParticle( y, x, channel );
         }
