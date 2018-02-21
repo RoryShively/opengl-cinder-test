@@ -18,6 +18,8 @@
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		28E5F75DCCCD443881B7CA07 /* TestAppApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C66E6AF53EB14798B7623923 /* TestAppApp.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
+		79539FA5203D1942003CE6DA /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 79539FA4203D1942003CE6DA /* Particle.cpp */; };
+		79539FA7203D1963003CE6DA /* ParticleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 79539FA6203D1963003CE6DA /* ParticleController.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		C0CB2EFCCD954024A2D462C9 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F5BDD696B84F0F8C32FFEB /* CinderApp.icns */; };
 /* End PBXBuildFile section */
@@ -41,6 +43,8 @@
 		66F20260BFB54C57A476FFB5 /* TestApp_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = TestApp_Prefix.pch; sourceTree = "<group>"; };
 		79352B5520390D9F007DD945 /* Particle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Particle.h; sourceTree = "<group>"; };
 		79352B5620390F69007DD945 /* ParticleController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleController.h; sourceTree = "<group>"; };
+		79539FA4203D1942003CE6DA /* Particle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Particle.cpp; sourceTree = "<group>"; };
+		79539FA6203D1963003CE6DA /* ParticleController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleController.cpp; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C66E6AF53EB14798B7623923 /* TestAppApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = TestAppApp.cpp; path = ../src/TestAppApp.cpp; sourceTree = "<group>"; };
 		D51B0731E294402B85832682 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 			isa = PBXGroup;
 			children = (
 				C66E6AF53EB14798B7623923 /* TestAppApp.cpp */,
+				79539FA4203D1942003CE6DA /* Particle.cpp */,
+				79539FA6203D1963003CE6DA /* ParticleController.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -223,7 +229,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79539FA7203D1963003CE6DA /* ParticleController.cpp in Sources */,
 				28E5F75DCCCD443881B7CA07 /* TestAppApp.cpp in Sources */,
+				79539FA5203D1942003CE6DA /* Particle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
